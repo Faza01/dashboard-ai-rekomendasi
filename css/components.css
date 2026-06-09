@@ -664,3 +664,31 @@
   display: block;
   margin-top: 2px;
 }
+
+/* Sync Button and Animation */
+.btn-sync {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3) !important;
+  font-weight: 600;
+  font-size: var(--text-xs);
+  cursor: pointer;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast) !important;
+}
+
+.btn-sync svg {
+  width: 13px;
+  height: 13px;
+}
+
+.btn-sync.spinning svg {
+  animation: spin-animation 1s linear infinite;
+}
+
+@keyframes spin-animation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+

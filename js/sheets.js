@@ -11,13 +11,18 @@ const hasCredentials = CONFIG.SPREADSHEET_ID &&
                        CONFIG.API_KEY && 
                        CONFIG.API_KEY !== 'GOOGLE_SHEETS_API_KEY';
 
+// Cache expiration: 30 seconds
+const CACHE_DURATION_MS = 30 * 1000;
+
 export const SHEETS_API = {
   // Fetch raw, un-normalized sheet data
   async fetchRawSheetData(sheetName) {
     const rawCacheKey = `raw_sheets_cache_${sheetName}`;
     const cachedData = sessionStorage.getItem(rawCacheKey);
+    const cachedTime = sessionStorage.getItem(`${rawCacheKey}_timestamp`);
+    const now = Date.now();
 
-    if (cachedData) {
+    if (cachedData && cachedTime && (now - parseInt(cachedTime, 10) < CACHE_DURATION_MS)) {
       try {
         return JSON.parse(cachedData);
       } catch (e) {
@@ -31,6 +36,7 @@ export const SHEETS_API = {
       sessionStorage.setItem('is_mock_mode', 'true');
       const mockResult = MOCK_DATA[sheetName] || [];
       sessionStorage.setItem(rawCacheKey, JSON.stringify(mockResult));
+      sessionStorage.setItem(`${rawCacheKey}_timestamp`, now.toString());
       return mockResult;
     }
 
@@ -45,6 +51,7 @@ export const SHEETS_API = {
       const data = await response.json();
       const values = data.values || [];
       sessionStorage.setItem(rawCacheKey, JSON.stringify(values));
+      sessionStorage.setItem(`${rawCacheKey}_timestamp`, now.toString());
       return values;
     } catch (error) {
       console.error(`Failed to fetch raw sheet "${sheetName}":`, error);
@@ -55,6 +62,7 @@ export const SHEETS_API = {
         sessionStorage.setItem('is_mock_mode', 'true');
         const mockResult = MOCK_DATA[sheetName] || [];
         sessionStorage.setItem(rawCacheKey, JSON.stringify(mockResult));
+        sessionStorage.setItem(`${rawCacheKey}_timestamp`, now.toString());
         return mockResult;
       }
       
@@ -66,8 +74,10 @@ export const SHEETS_API = {
   async getSheetData(sheetName) {
     const cacheKey = `sheets_cache_${sheetName}`;
     const cachedData = sessionStorage.getItem(cacheKey);
+    const cachedTime = sessionStorage.getItem(`${cacheKey}_timestamp`);
+    const now = Date.now();
 
-    if (cachedData) {
+    if (cachedData && cachedTime && (now - parseInt(cachedTime, 10) < CACHE_DURATION_MS)) {
       try {
         if (sessionStorage.getItem('is_mock_mode') === 'true') {
           window.isMockDataMode = true;
@@ -272,21 +282,18 @@ export const SHEETS_API = {
     }
 
     sessionStorage.setItem(cacheKey, JSON.stringify(normalizedData));
+    sessionStorage.setItem(`${cacheKey}_timestamp`, Date.now().toString());
     return normalizedData;
   },
 
   // Clear cache
   clearCache() {
-    sessionStorage.removeItem('sheets_cache_hasil_rekomendasi');
-    sessionStorage.removeItem('sheets_cache_skor_riasec');
-    sessionStorage.removeItem('sheets_cache_nilai_siswa');
-    sessionStorage.removeItem('sheets_cache_prestasi_siswa');
-    sessionStorage.removeItem('raw_sheets_cache_hasil_rekomendasi');
-    sessionStorage.removeItem('raw_sheets_cache_skor_riasec');
-    sessionStorage.removeItem('raw_sheets_cache_nilai_siswa');
-    sessionStorage.removeItem('raw_sheets_cache_prestasi_siswa');
-    sessionStorage.removeItem('raw_sheets_cache_data_siswa');
-    sessionStorage.removeItem('is_mock_mode');
+    // Clear all sheets-related cache keys and timestamps
+    Object.keys(sessionStorage).forEach(key => {
+      if (key.includes('sheets_cache') || key.includes('raw_sheets_cache') || key === 'is_mock_mode') {
+        sessionStorage.removeItem(key);
+      }
+    });
     window.isMockDataMode = false;
   },
 
