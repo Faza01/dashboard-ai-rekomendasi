@@ -57,7 +57,7 @@ export const AUTH = {
   // Check auth and redirect if unauthorized
   checkAuthAndRedirect() {
     const currentUser = this.getCurrentUser();
-    const isLoginPage = window.location.pathname.endsWith('login.html');
+    const isLoginPage = window.location.pathname.endsWith('login.html') || window.location.pathname.endsWith('/login');
     
     if (!currentUser && !isLoginPage) {
       // Not logged in and not on login page -> redirect to login
