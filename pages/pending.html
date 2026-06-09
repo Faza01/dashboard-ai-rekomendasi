@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siswa Pending — AI Rekomendasi Karier SMK Telkom</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/print.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header Container -->
+      <div id="header-container"></div>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        
+        <!-- Explanation card -->
+        <section class="card mb-6" aria-label="Informasi Pending">
+          <p class="semibold">Siswa berikut belum mendapat rekomendasi karena NIS tidak cocok atau data nilai akademik belum diinput.</p>
+          <p class="text-muted mt-1">Status pending ini mendeteksi ketidaksesuaian data kuesioner siswa dengan database nilai sekolah. Guru BK dapat menandai siswa selesai sementara setelah melakukan tindak lanjut.</p>
+        </section>
+
+        <!-- Pending Students Table -->
+        <div class="card">
+          <h3 class="card-title">Antrean Siswa Pending</h3>
+          
+          <div class="table-responsive">
+            <table class="data-table" id="pending-table">
+              <thead>
+                <tr>
+                  <th>NIS (Form)</th>
+                  <th>Nama Siswa</th>
+                  <th>Kelas</th>
+                  <th>Tanggal Isi</th>
+                  <th>Alasan Pending</th>
+                  <th style="width: 180px;" class="no-print">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="pending-table-body">
+                <tr>
+                  <td colspan="6" class="text-center text-muted">Memuat data pending...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Guides Section -->
+        <div class="card info-box-grey">
+          <h3 class="mb-2">📋 Panduan Penyelesaian Masalah</h3>
+          <ol style="margin-left: 20px; line-height: 1.8;">
+            <li>Periksa kecocokan nomor NIS siswa yang bersangkutan di sheet <strong>nilai_siswa</strong>.</li>
+            <li>Perbaiki jika terdapat kesalahan penulisan (typo) NIS atau nama kelas.</li>
+            <li>Jalankan fungsi <code>prosesUlangNIS()</code> di menu Apps Script Spreadsheet Anda untuk memicu kompilasi ulang rekomendasi AI secara otomatis.</li>
+          </ol>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Page Logic Modules -->
+  <script type="module" src="../js/pages/pending.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laporan Statistik — AI Rekomendasi Karier SMK Telkom</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/print.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header Container -->
+      <div id="header-container"></div>
+
+      <!-- Page Content -->
+      <main class="page-content" id="report-content-area">
+        
+        <!-- Actions row -->
+        <section class="d-flex justify-content-between align-items-center no-print" aria-label="Aksi Laporan">
+          <span class="text-muted">Cetak atau unduh rekapitulasi data konseling siswa.</span>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary" id="btn-export-full-csv">Unduh CSV Lengkap</button>
+            <button class="btn btn-primary" id="btn-print-report">
+              <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+              </svg>
+              Cetak Laporan
+            </button>
+          </div>
+        </section>
+
+        <!-- Summary Grid Card -->
+        <div class="card">
+          <h3 class="card-title">Ringkasan Statistik Umum</h3>
+          <div class="table-responsive">
+            <table class="data-table" id="summary-stats-table">
+              <thead>
+                <tr>
+                  <th>Indikator Statistik</th>
+                  <th style="width: 200px; text-align: right;">Jumlah Siswa</th>
+                  <th style="width: 200px; text-align: right;">Persentase</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Total Siswa Mengisi Kuesioner</td>
+                  <td class="text-right" id="lbl-total">--</td>
+                  <td class="text-right">100%</td>
+                </tr>
+                <tr>
+                  <td>Rekomendasi Berhasil (Lengkap)</td>
+                  <td class="text-right" id="lbl-lengkap">--</td>
+                  <td class="text-right" id="pct-lengkap">--</td>
+                </tr>
+                <tr>
+                  <td>Menunggu Tindakan (PENDING)</td>
+                  <td class="text-right" id="lbl-pending">--</td>
+                  <td class="text-right" id="pct-pending">--</td>
+                </tr>
+                <tr>
+                  <td>Telah Mengikuti Konseling</td>
+                  <td class="text-right" id="lbl-counseled">--</td>
+                  <td class="text-right" id="pct-counseled">--</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Class Report Card -->
+        <div class="card">
+          <div class="card-title justify-content-between align-items-center">
+            <h3>Laporan Per Kelas</h3>
+            <div class="form-group no-print">
+              <select class="form-control" id="select-class-report" style="width: 200px;">
+                <option value="">Pilih Kelas...</option>
+                <!-- Dynamic options -->
+              </select>
+            </div>
+          </div>
+
+          <!-- Class Stats Metrics Panel -->
+          <div id="class-report-panel" style="display: none;">
+            <div class="d-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-4); margin-bottom: var(--space-6); background-color: var(--color-bg); padding: var(--space-4); border-radius: var(--radius-md);">
+              <div class="form-group">
+                <span class="text-muted">Total Siswa Kelas</span>
+                <strong style="font-size: var(--text-xl);" id="class-total-siswa">--</strong>
+              </div>
+              <div class="form-group">
+                <span class="text-muted">Rasio Sudah Dikonseling</span>
+                <strong style="font-size: var(--text-xl);" id="class-counsel-ratio">--</strong>
+              </div>
+              <div class="form-group">
+                <span class="text-muted">Tipe RIASEC Dominan</span>
+                <strong style="font-size: var(--text-xl);" id="class-riasec-dominant">--</strong>
+              </div>
+              <div class="form-group">
+                <span class="text-muted">Rekomendasi Terbanyak</span>
+                <strong style="font-size: var(--text-xl); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" id="class-major-top">--</strong>
+              </div>
+            </div>
+
+            <!-- Class Students List Table -->
+            <div class="table-responsive">
+              <table class="data-table" id="class-students-table">
+                <thead>
+                  <tr>
+                    <th>NIS</th>
+                    <th>Nama</th>
+                    <th>Tipe RIASEC</th>
+                    <th>Rekomendasi Jurusan Terpopuler</th>
+                    <th>Konseling</th>
+                  </tr>
+                </thead>
+                <tbody id="class-students-tbody">
+                  <!-- Dynamic rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div id="class-report-placeholder" class="text-center py-6 text-muted">
+            Pilih kelas pada dropdown di atas untuk melihat detail laporan kelas.
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Page Logic Modules -->
+  <script type="module" src="../js/pages/laporan.js"></script>
+</body>
+</html>

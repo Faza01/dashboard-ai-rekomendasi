@@ -1,0 +1,115 @@
+/* BK AI Career Recommendation Dashboard Design Tokens */
+
+:root {
+  /* Font Family - Load Inter and Outfit from Google Fonts */
+  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-title: 'Outfit', var(--font-sans);
+
+  /* Typography Scales */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.8125rem;  /* 13px */
+  --text-base: 0.875rem;  /* 14px */
+  --text-lg: 1rem;       /* 16px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+
+  /* Border Radii */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* Light Theme Colors (Default) */
+  --color-primary: #1558A7;
+  --color-primary-light: #EBF3FC;
+  --color-primary-dark: #0F3F77;
+  
+  --color-success: #1A6E3F;
+  --color-success-light: #E8F5EE;
+  
+  --color-warning: #B26A00;
+  --color-warning-light: #FFF8E6;
+  
+  --color-danger: #C62828;
+  --color-danger-light: #FFEBEE;
+  
+  --color-purple: #534AB7;
+  --color-purple-light: #F0EEFC;
+
+  --color-neutral: #5F5E5A;
+  
+  --color-bg: #F4F6F9;
+  --color-sidebar-bg: #111827;
+  --color-sidebar-text: #E5E7EB;
+  --color-sidebar-hover: #1F2937;
+  --color-sidebar-active: #1558A7;
+  
+  --color-surface: #FFFFFF;
+  --color-surface-hover: #F9FAFB;
+  --color-border: #E5E7EB;
+  --color-text: #111827;
+  --color-text-muted: #6B7280;
+  --color-scrollbar: #D1D5DB;
+
+  /* RIASEC Specific Colors */
+  --color-riasec-r: #E03E3E; /* Merah bata - Realistic */
+  --color-riasec-i: #1E66F5; /* Biru - Investigative */
+  --color-riasec-a: #8839EF; /* Ungu - Artistic */
+  --color-riasec-s: #40A02B; /* Hijau - Social */
+  --color-riasec-e: #DF8E1D; /* Oranye - Enterprising */
+  --color-riasec-c: #4C4F69; /* Abu-abu gelap - Conventional */
+  
+  /* Transition Speeds */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s ease;
+}
+
+/* Dark Theme Overrides */
+[data-theme="dark"] {
+  --color-bg: #090D16;
+  --color-surface: #151C2C;
+  --color-surface-hover: #1E2638;
+  --color-border: #242E42;
+  --color-text: #F3F4F6;
+  --color-text-muted: #9CA3AF;
+  --color-scrollbar: #4B5563;
+
+  --color-primary: #3B82F6;
+  --color-primary-light: #1E293B;
+  --color-primary-dark: #60A5FA;
+
+  --color-success: #10B981;
+  --color-success-light: #064E3B;
+
+  --color-warning: #F59E0B;
+  --color-warning-light: #78350F;
+
+  --color-danger: #EF4444;
+  --color-danger-light: #7F1D1D;
+
+  --color-purple: #8B5CF6;
+  --color-purple-light: #4C1D95;
+
+  --color-sidebar-bg: #0B0E14;
+  --color-sidebar-text: #D1D5DB;
+  --color-sidebar-hover: #151C2C;
+  --color-sidebar-active: #3B82F6;
+}

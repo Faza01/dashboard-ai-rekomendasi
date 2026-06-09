@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Siswa — AI Rekomendasi Karier SMK Telkom</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/print.css">
+  <!-- SheetJS CDN (for Excel Export) -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header Container -->
+      <div id="header-container"></div>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        
+        <!-- Filter Toolbar -->
+        <section class="filter-toolbar" aria-label="Filter Data Siswa">
+          <!-- Search box -->
+          <div class="search-box-wrapper">
+            <svg viewBox="0 0 24 24">
+              <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+            <input class="form-control" type="text" id="search-input" placeholder="Cari NIS atau nama siswa...">
+          </div>
+
+          <!-- Filter Kelas -->
+          <div class="form-group">
+            <select class="form-control filter-select" id="filter-kelas">
+              <option value="">Semua Kelas</option>
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <!-- Filter Jurusan SMK -->
+          <div class="form-group">
+            <select class="form-control filter-select" id="filter-jurusan">
+              <option value="">Semua Jurusan</option>
+              <option value="RPL">RPL</option>
+              <option value="TKJ">TKJ</option>
+              <option value="TJA">TJA</option>
+              <option value="MM">Multimedia</option>
+            </select>
+          </div>
+
+          <!-- Filter Status -->
+          <div class="form-group">
+            <select class="form-control filter-select" id="filter-status">
+              <option value="">Semua Status</option>
+              <option value="Lengkap">Lengkap</option>
+              <option value="PENDING">Pending</option>
+              <option value="Tanpa nilai">Tanpa Nilai</option>
+            </select>
+          </div>
+
+          <!-- Reset Button -->
+          <button class="btn btn-secondary" id="btn-reset-filters">Reset</button>
+        </section>
+
+        <!-- Data Table Card -->
+        <div class="card">
+          <div class="card-title">
+            <h3>Daftar Seluruh Siswa</h3>
+            <div class="d-flex gap-2 no-print">
+              <button class="btn btn-outline-primary btn-sm" id="btn-export-csv">
+                <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4h3z"/>
+                </svg>
+                Export CSV
+              </button>
+              <button class="btn btn-success btn-sm" id="btn-export-excel">
+                <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                </svg>
+                Export Excel
+              </button>
+            </div>
+          </div>
+          
+          <div class="table-responsive">
+            <table class="data-table" id="siswa-table">
+              <thead>
+                <tr>
+                  <th style="width: 50px;" data-column="num">#</th>
+                  <th data-column="1" class="sort-asc">NIS</th>
+                  <th data-column="2">Nama</th>
+                  <th data-column="3">Kelas</th>
+                  <th data-column="4">Tipe RIASEC</th>
+                  <th data-column="5">Jurusan Rekomendasi</th>
+                  <th data-column="6">Karier Rekomendasi</th>
+                  <th data-column="7">Status</th>
+                  <th style="width: 80px;" data-column="counsel">Konseling</th>
+                  <th class="no-print" style="width: 60px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="siswa-table-body">
+                <tr>
+                  <td colspan="10" class="text-center text-muted">Memuat data siswa...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Footer -->
+          <footer class="pagination">
+            <span class="text-muted" id="pagination-info">Menampilkan 0-0 dari 0 siswa</span>
+            <div class="pagination-controls" id="pagination-controls">
+              <!-- Dynamically populated buttons -->
+            </div>
+          </footer>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Page Logic Modules -->
+  <script type="module" src="../js/pages/siswa.js"></script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Ringkasan — AI Rekomendasi Karier SMK Telkom</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/print.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header Container -->
+      <div id="header-container"></div>
+
+      <!-- Page Content -->
+      <main class="page-content">
+        
+        <!-- KPI Stats Cards Grid -->
+        <section class="stat-grid" aria-label="Statistik Utama">
+          <!-- Total Siswa -->
+          <div class="stat-card stat-blue">
+            <div class="stat-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Total Siswa Terdaftar</span>
+              <span class="stat-value" id="stat-total-siswa">--</span>
+            </div>
+          </div>
+
+          <!-- Lengkap / Direkomendasikan -->
+          <div class="stat-card stat-green">
+            <div class="stat-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Sudah Direkomendasikan</span>
+              <span class="stat-value" id="stat-lengkap">--</span>
+            </div>
+          </div>
+
+          <!-- Pending -->
+          <div class="stat-card stat-orange">
+            <div class="stat-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Menunggu (PENDING)</span>
+              <span class="stat-value" id="stat-pending">--</span>
+            </div>
+          </div>
+
+          <!-- Sudah Dikonseling -->
+          <div class="stat-card stat-purple">
+            <div class="stat-icon-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Sudah Dikonseling</span>
+              <span class="stat-value" id="stat-counseled">--</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Charts Grid -->
+        <div class="dashboard-grid">
+          <!-- RIASEC Bar Chart -->
+          <div class="card">
+            <h3 class="card-title">Distribusi Tipe RIASEC Dominan</h3>
+            <div style="position: relative; height: 300px; width: 100%;">
+              <canvas id="riasecDistributionChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Top Majors Donut Chart -->
+          <div class="card">
+            <h3 class="card-title">Top 6 Rekomendasi Jurusan</h3>
+            <div style="position: relative; height: 300px; width: 100%; display: flex; justify-content: center;">
+              <canvas id="majorDistributionChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tables & Activity Bottom Grid -->
+        <div class="dashboard-bottom-grid">
+          <!-- Recent Pending Students -->
+          <div class="card">
+            <div class="card-title">
+              <h3>Siswa Pending Terbaru</h3>
+              <a href="./pending.html" class="btn btn-outline-primary btn-sm">Lihat Semua Pending</a>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table" id="pending-table">
+                <thead>
+                  <tr>
+                    <th>NIS</th>
+                    <th>Nama</th>
+                    <th>Kelas</th>
+                    <th>Alasan</th>
+                    <th class="no-print" style="width: 80px;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="pending-table-body">
+                  <tr>
+                    <td colspan="5" class="text-center text-muted">Memuat data pending...</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Recent survey completions -->
+          <div class="card">
+            <h3 class="card-title">Aktivitas Terbaru</h3>
+            <div class="activity-feed" id="activity-feed-container">
+              <p class="text-center text-muted">Memuat aktivitas terbaru...</p>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Page Logic Modules -->
+  <script type="module" src="../js/pages/dashboard.js"></script>
+</body>
+</html>

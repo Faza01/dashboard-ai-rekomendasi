@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard AI Rekomendasi Karier — SMK Telkom</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #F4F6F9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .loader-container {
+      text-align: center;
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border-left-color: #1558A7;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loading-text {
+      color: #5F5E5A;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loader-container">
+    <div class="spinner"></div>
+    <div class="loading-text">Memuat Sistem Dashboard BK...</div>
+  </div>
+
+  <script type="module">
+    import AUTH from './js/auth.js';
+    
+    // Redirect logic
+    setTimeout(() => {
+      const user = AUTH.getCurrentUser();
+      if (user) {
+        window.location.href = './pages/dashboard.html';
+      } else {
+        window.location.href = './pages/login.html';
+      }
+    }, 500);
+  </script>
+</body>
+</html>

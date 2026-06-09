@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Siswa — AI Rekomendasi Karier SMK Telkom</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="../css/variables.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/print.css">
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Sidebar Container -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+      <!-- Header Container -->
+      <div id="header-container"></div>
+
+      <!-- Page Content -->
+      <main class="page-content" id="detail-content-area">
+        
+        <!-- Action bar -->
+        <section class="d-flex justify-content-between align-items-center no-print" aria-label="Aksi Halaman">
+          <a href="./siswa.html" class="btn btn-secondary">
+            <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+            Kembali ke Daftar
+          </a>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-primary" id="btn-toggle-counsel">
+              Tandai Dikonseling
+            </button>
+            <button class="btn btn-primary" id="btn-print-laporan">
+              <svg style="width:14px;height:14px;" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/>
+              </svg>
+              Cetak Laporan
+            </button>
+          </div>
+        </section>
+
+        <!-- Profile Grid Layout -->
+        <div class="detail-grid">
+          
+          <!-- Column Kiri: Profil & Akademis -->
+          <div class="d-flex flex-column gap-6">
+            
+            <!-- Profil Card -->
+            <div class="card detail-profile-card">
+              <div class="detail-avatar" id="student-avatar-badge">--</div>
+              <h2 id="student-name">--</h2>
+              <p class="text-muted mb-2" id="student-nis-class">NIS: -- | Kelas: --</p>
+              <div id="student-riasec-badge-container"></div>
+              
+              <!-- Radar Chart RIASEC -->
+              <div class="radar-chart-container">
+                <canvas id="riasecRadarChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Nilai Akademis Card -->
+            <div class="card">
+              <h3 class="card-title">Nilai Akademik</h3>
+              <div id="grades-list-container">
+                <p class="text-center text-muted py-4">Memuat data nilai...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Column Kanan: AI Rekomendasi & Prestasi -->
+          <div class="d-flex flex-column gap-6">
+            
+            <!-- Hasil AI Card -->
+            <div class="card">
+              <h3 class="card-title" style="border-bottom:1px solid var(--color-border); padding-bottom:var(--space-2);">Rekomendasi AI</h3>
+              
+              <h4 class="mb-2 mt-3">Rekomendasi Jurusan SMK/Kuliah</h4>
+              <ol class="rec-list" id="rec-majors-list">
+                <li class="text-muted">Memuat rekomendasi...</li>
+              </ol>
+
+              <h4 class="mb-2">Rekomendasi Karier Masa Depan</h4>
+              <ol class="rec-list" id="rec-careers-list">
+                <li class="text-muted">Memuat rekomendasi...</li>
+              </ol>
+
+              <h4 class="mb-2">Analisis & Penjelasan AI</h4>
+              <div class="info-box info-box-grey" id="ai-explanation-box">
+                Memuat penjelasan analisis...
+              </div>
+
+              <h4 class="mb-2">Tips Peningkatan Diri AI</h4>
+              <div class="info-box info-box-green" id="ai-tips-box">
+                Memuat tips pengembangan...
+              </div>
+            </div>
+
+            <!-- Prestasi Card -->
+            <div class="card">
+              <h3 class="card-title">Prestasi Siswa</h3>
+              <div class="table-responsive">
+                <table class="data-table" id="achievements-table">
+                  <thead>
+                    <tr>
+                      <th>Kegiatan</th>
+                      <th>Kategori</th>
+                      <th>Tingkat</th>
+                      <th>Prestasi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="achievements-table-body">
+                    <tr>
+                      <td colspan="4" class="text-center text-muted">Memuat data prestasi...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bagian Bawah: Catatan Konseling -->
+        <div class="card" id="counseling-notes-section">
+          <h3 class="card-title">Catatan Sesi Konseling</h3>
+          
+          <div class="notes-container" id="notes-list-container">
+            <p class="text-muted">Belum ada catatan untuk siswa ini.</p>
+          </div>
+
+          <!-- Form Tambah Catatan -->
+          <div class="no-print" id="notes-form-section" style="border-top:1px solid var(--color-border); padding-top:var(--space-4);">
+            <h4 class="mb-2">Tambah Catatan Konseling Baru</h4>
+            <form id="note-form" class="d-flex flex-column gap-3">
+              <div class="form-group">
+                <textarea class="form-control" id="note-textarea" rows="4" placeholder="Tuliskan poin penting, kesimpulan, atau tindak lanjut dari sesi konseling siswa di sini..." required></textarea>
+              </div>
+              <div class="text-right">
+                <button type="submit" class="btn btn-primary">Simpan Catatan</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Page Logic Modules -->
+  <script type="module" src="../js/pages/siswa-detail.js"></script>
+</body>
+</html>
